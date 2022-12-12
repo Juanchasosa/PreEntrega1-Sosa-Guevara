@@ -1,28 +1,27 @@
-import logo from './logo.svg';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import ItemDetailContainer from './components/ItemDetailContainer';
 import NavBar from './components/NavBar';
 import ItemListContainer from './components/ItemListContainer';
-import ProductList from './components/ProductList';
 
 
 function App() {
 
-  const message = () => {
-    console.log("Hola");
-  }
-
   return (
-    <>
-     < NavBar />
+    <BrowserRouter>
 
-     <ItemListContainer stock={5}/>
-     <ItemListContainer stock={10}/>
-     <ItemListContainer stock={2}/>
-     <ItemListContainer stock={20}/>
+      <NavBar/>
+      <Routes>
 
-     <ProductList/>
+        <Route path='/' element={<ItemListContainer/>}/>
+        <Route path='/category/:id' element={<ItemListContainer/>}/>
+        <Route path='/drink/:id' element={<ItemDetailContainer/>}/>
 
-    </>
+
+      </Routes>
+    </BrowserRouter>
+
+
   );
 }
 
