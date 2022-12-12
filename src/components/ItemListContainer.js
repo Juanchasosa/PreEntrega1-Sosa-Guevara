@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import { PRODUCTS } from "../data/drinks"
 import ProductCard from "./ProductCard"
 
@@ -6,13 +7,21 @@ import ProductCard from "./ProductCard"
 const ItemListContainer = () => {
     
     const [products, setProducts] = useState([])
+
+    const {id} = useParams()
     
     useEffect(() => {
         getProducts().then(response =>{
-            setProducts(response)
-            console.log(response);
+            if(id){
+                setProducts(response.filter((item) => item.category === id))
+            }else{
+
+                setProducts(response)
+                console.log(response);
+
+            }
         })
-    }, [])
+    }, [id])
     
     const getProducts = () => {
         return new Promise((response, reject) => {

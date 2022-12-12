@@ -22,9 +22,9 @@ const QuantitySelector = ({stock}) => {
               <div className="flex flex-col items-center">
                   <strong>Cantidad</strong>
                   <strong>{ cantidad }</strong>
-                  <div>
-                    <button disabled={cantidad === stock} onClick={aumentar} className="btn">+</button>
+                  <div className="flex gap-2">
                     <button disabled= {cantidad === 0} onClick={disminuir} className="btn">-</button>
+                    <button disabled={cantidad === stock} onClick={aumentar} className="btn">+</button>
                   </div>
               </div>
           </div>
