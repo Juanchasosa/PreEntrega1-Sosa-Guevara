@@ -52,7 +52,7 @@ const PRODUCTS = [
     stock: 14,
     category: "alcohol",
     precio: 1150,
-    img: "https://vinoteca-plottier.tiendalite.com/images/products/500/71724243-232.png"
+    img: "https://www.pasosonline.com.ar/wp-content/uploads/2018/08/image-removebg-preview-62.png"
 },
 
 ]

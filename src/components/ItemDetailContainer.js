@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import { useCart } from "../context/CartContext"
 import { PRODUCTS } from "../data/drinks"
 import QuantitySelector from "./QuantitySelector"
 
@@ -23,6 +24,12 @@ const ItemDetailContainer = () => {
         })
     }
 
+    const {addItemCart} = useCart()
+
+    const addHandler = () => {
+      addItemCart({...detail})
+    }
+
   return (
     <div className="flex justify-center">
       <div className="card card-compact w-96 bg-base-100 shadow-xl">
@@ -32,7 +39,7 @@ const ItemDetailContainer = () => {
           <p>${detail.precio}</p>
           <div className="card-actions flex-col items-center">
             <QuantitySelector stock={detail.stock}/>
-            <button className="btn btn-primary">Comprar</button>
+            <button className="btn btn-primary" onClick={addHandler}>Agregar al carrito</button>
           </div>
         </div>
       </div>

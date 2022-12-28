@@ -13,7 +13,6 @@ const ProductCard = ({id, name, stock, precio, img}) => {
                 <h2 className="card-title">${precio}</h2>
                 <p>Stock: {stock}</p>
                 <div className="items-center flex-col card-actions">
-                    <QuantitySelector stock={stock} />
                     <Link to={`/drink/${id}`} className="btn">Ver detalle</Link>
                 </div>
             </div>
