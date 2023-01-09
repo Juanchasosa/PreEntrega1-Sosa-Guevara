@@ -20,15 +20,17 @@ const ItemDetailContainer = () => {
             const item = PRODUCTS.find(p => p.id == id)
             setTimeout(() => {
                 resolve(item)
-            }, 2000);
+            }, 500);
         })
     }
 
-    const {addItemCart} = useCart()
+    const handleAddToCart = (cantidad) => {
 
-    const addHandler = () => {
-      addItemCart({...detail})
+      addToCart(detail, cantidad)
     }
+
+    const {addToCart} = useCart()
+
 
   return (
     <div className="flex justify-center">
@@ -38,8 +40,7 @@ const ItemDetailContainer = () => {
           <h2 className="card-title">{detail.name}</h2>
           <p>${detail.precio}</p>
           <div className="card-actions flex-col items-center">
-            <QuantitySelector stock={detail.stock}/>
-            <button className="btn btn-primary" onClick={addHandler}>Agregar al carrito</button>
+            <QuantitySelector onAddToCart={handleAddToCart} stock={detail.stock}/>
           </div>
         </div>
       </div>

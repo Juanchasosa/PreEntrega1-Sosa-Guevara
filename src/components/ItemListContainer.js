@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import { useCart } from "../context/CartContext"
 import { PRODUCTS } from "../data/drinks"
 import ProductCard from "./ProductCard"
 
 
 const ItemListContainer = () => {
-    
+
+   
     const [products, setProducts] = useState([])
 
     const {id} = useParams()
@@ -17,7 +19,6 @@ const ItemListContainer = () => {
             }else{
 
                 setProducts(response)
-                console.log(response);
 
             }
         })
@@ -27,7 +28,7 @@ const ItemListContainer = () => {
         return new Promise((response, reject) => {
             setTimeout(() => {
                 response(PRODUCTS)
-            }, 2000);
+            }, 500);
         })
     }
     
