@@ -49,7 +49,7 @@ const CartContextProvider = ( {children} ) => {
 
     const removeItem = (idToRemove) => {
         let newCart = items.filter(itemInCart => itemInCart.id !== idToRemove)
-        setItems(newCart)
+        setItems([...newCart])
     }
 
     const getTotalPrice = () =>{
@@ -57,11 +57,7 @@ const CartContextProvider = ( {children} ) => {
     }
 
     const getTotalItemCount = () =>{
-        let total = 0
-        items.forEach(itemInCart => {
-            total = total + itemInCart.count;
-        })
-        return total
+        return items.reduce((acc, product) => acc + product.cantidad, 0)
     }
 
     const context = {
