@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 const QuantitySelector = ({stock, onAddToCart}) => {
 
     const [cantidad, setCantidad] = useState(1)
+    const [disabled, setDisabled] = useState(true)
   
     const aumentar = () => { 
   
@@ -26,11 +28,13 @@ const QuantitySelector = ({stock, onAddToCart}) => {
                     <button disabled= {cantidad === 1} onClick={disminuir} className="btn">-</button>
                     <button disabled={cantidad === stock} onClick={aumentar} className="btn">+</button>
                   </div>
-                  <div>
+                  <div className="flex flex-row gap-1">
                     <button className="btn" onClick={() => {
                       onAddToCart(cantidad)
+                      setDisabled(false)
 
                       }}>Agregar al carrito</button>
+                    <Link to={"/cart"} className={disabled ? "hidden" : "btn"}>Ir al carrito</Link>
                   </div>
               </div>
           </div>

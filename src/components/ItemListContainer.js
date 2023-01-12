@@ -1,7 +1,9 @@
+import { collection, getDocs, getFirestore } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useCart } from "../context/CartContext"
 import { PRODUCTS } from "../data/drinks"
+import Loader from "./Loader"
 import ProductCard from "./ProductCard"
 
 
@@ -9,30 +11,45 @@ const ItemListContainer = () => {
 
    
     const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const {id} = useParams()
     
     useEffect(() => {
-        getProducts().then(response =>{
+        getItems().then(response =>{
             if(id){
-                setProducts(response.filter((item) => item.category === id))
+                setProducts(response.docs.filter((item) => item.category === id))
             }else{
 
-                setProducts(response)
+                setProducts( response.docs.map ( d => ( {id:d.id, ...d.data()})))
 
             }
         })
+
     }, [id])
     
-    const getProducts = () => {
-        return new Promise((response, reject) => {
-            setTimeout(() => {
-                response(PRODUCTS)
-            }, 500);
-        })
-    }
+    // const getProducts = () => {
+    //     return new Promise((response, reject) => {
+    //         setTimeout(() => {
+    //             response(PRODUCTS)
+    //             setLoading(false)
+
+    //         }, 2000);
+    //     })
+    // }
+
+
+    const getItems = async () => {
+        const db = getFirestore()
+        const collectionRef = collection(db, "items")
+        const response = await getDocs(collectionRef)
+      }
+
+    
     
   return (
+    loading ? <Loader/> :
+
     <>
         <div className="flex flex-col items-center flex-wrap">
 

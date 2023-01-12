@@ -36,7 +36,7 @@ const ItemDetailContainer = () => {
     <div className="flex justify-center">
       <div className="card card-compact w-96 bg-base-100 shadow-xl">
         <figure><img src={detail.img} alt={detail.name} /></figure>
-        <div className="card-body">
+        <div className="card-body items-center">
           <h2 className="card-title">{detail.name}</h2>
           <p>${detail.precio}</p>
           <div className="card-actions flex-col items-center">
