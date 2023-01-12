@@ -2,12 +2,13 @@ import { useCart } from "../context/CartContext"
 import { Icon } from '@iconify/react';
 import { useState } from "react";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
+import Swal from "sweetalert2";
 
 const ProductCart = () => {
 
     const {items, clearCart, getTotalItemCount, getTotalPrice, removeItem} = useCart()
-
     const [user, setUser] = useState({})
+    const [hidden, setHidden] = useState(true)
 
     if (items.length === 0) {
       return  <div className="flex flex-col items-center gap-5 my-20">
@@ -34,6 +35,19 @@ const ProductCart = () => {
       const orderCollection = collection(db, "orders")
       const id = await addDoc(orderCollection, order)
       console.log(id);
+      endOrder(id.id)
+    }
+
+    const endOrder = async (id) => {
+      Swal.fire({
+        title:'Felicidades por su compra',
+        text:`Su codigo de compra es: ${id}`,
+        background: "#191D24"
+      }
+        
+        
+        )
+      clearCart()
     }
 
   
@@ -89,6 +103,18 @@ const ProductCart = () => {
                   
                 })
 
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: 'Información enviada',
+                  showConfirmButton: false,
+                  timer: 1500,
+                  background: "#191D24"
+                })
+
+                setHidden(false)
+        
+
               }}>
 
                 <div className="flex gap-2">
@@ -113,7 +139,7 @@ const ProductCart = () => {
               </form>
               
               <div className="modal-action">
-                <label onClick={makeOrder} htmlFor="my-modal" className="btn">Comprar</label>
+                <label onClick={makeOrder} htmlFor="my-modal" className={hidden ? "hidden" : "btn"}>Comprar</label>
               </div>
             </div>
           </div>

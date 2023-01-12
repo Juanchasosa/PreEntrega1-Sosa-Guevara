@@ -1,28 +1,30 @@
+import { doc, getDoc, getFirestore } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useCart } from "../context/CartContext"
 import { PRODUCTS } from "../data/drinks"
+import Loader from "./Loader"
 import QuantitySelector from "./QuantitySelector"
 
 const ItemDetailContainer = () => {
 
     const [detail, setDetail] = useState({})
-    const { id } = useParams()
+    const [loading, setLoading] = useState (true)
+    const { idCategory } = useParams()
 
     useEffect(() => {
-      getDetails().then(res=>{
-        setDetail(res)
-      })
-    },[id])
+      getItemData()
+    },[idCategory])
 
-    const getDetails = () => {
-        return new Promise((resolve, reject) => {
-            const item = PRODUCTS.find(p => p.id == id)
-            setTimeout(() => {
-                resolve(item)
-            }, 500);
+       const getItemData = () => {
+        const db = getFirestore()
+        const docRef = doc(db, "items", idCategory)
+        getDoc( docRef ).then (snapshot => {
+          setDetail( {id: snapshot.id, ...snapshot.data()} );
         })
-    }
+        setLoading(false)
+      
+      }
 
     const handleAddToCart = (cantidad) => {
 
@@ -33,6 +35,8 @@ const ItemDetailContainer = () => {
 
 
   return (
+    loading ? <Loader/> :
+    
     <div className="flex justify-center">
       <div className="card card-compact w-96 bg-base-100 shadow-xl">
         <figure><img src={detail.img} alt={detail.name} /></figure>

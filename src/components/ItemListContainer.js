@@ -1,4 +1,4 @@
-import { collection, getDocs, getFirestore } from "firebase/firestore"
+import { collection, getDocs, getFirestore, query, where } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useCart } from "../context/CartContext"
@@ -13,37 +13,32 @@ const ItemListContainer = () => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
 
-    const {id} = useParams()
+    const {idCategory} = useParams()
     
     useEffect(() => {
-        getItems().then(response =>{
-            if(id){
-                setProducts(response.docs.filter((item) => item.category === id))
-            }else{
 
-                setProducts( response.docs.map ( d => ( {id:d.id, ...d.data()})))
+        idCategory ? getItemsCategory() : getItems()
 
-            }
-        })
-
-    }, [id])
+    }, [idCategory])
     
-    // const getProducts = () => {
-    //     return new Promise((response, reject) => {
-    //         setTimeout(() => {
-    //             response(PRODUCTS)
-    //             setLoading(false)
 
-    //         }, 2000);
-    //     })
-    // }
+    const getItems = async () => {  
+        const dataBase= getFirestore()
+        const collectionRef = collection (dataBase, 'items')
+        const snapshot = await getDocs(collectionRef)
+        setProducts(snapshot.docs.map(d => ({id:d.id, ...d.data()}))) 
+        setLoading(false)  
+    }
 
-
-    const getItems = async () => {
-        const db = getFirestore()
-        const collectionRef = collection(db, "items")
-        const response = await getDocs(collectionRef)
-      }
+    const getItemsCategory = async () => {  
+        const dataBase= getFirestore()
+        const collectionRef = query(collection(dataBase,"items"),where('category','==',idCategory))
+        const snapshot = await getDocs(collectionRef)
+        setProducts(snapshot.docs.map(d => ({id:d.id, ...d.data()  } )))   
+        setLoading(false)
+    }
+    
+    
 
     
     
